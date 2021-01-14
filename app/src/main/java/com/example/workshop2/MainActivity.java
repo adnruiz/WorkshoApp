@@ -3,6 +3,7 @@ package com.example.workshop2;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -18,7 +19,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
-
+    Intent i;
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
     private String BASE_URL = "http://192.168.1.5:4200";
@@ -69,11 +70,15 @@ public class MainActivity extends AppCompatActivity {
                     public void onResponse(Call<ActivityLogin> call, Response<ActivityLogin> response) {
                         if(response.code()==201){
                             ActivityLogin result = response.body();
-
+                            /*
                             AlertDialog.Builder builder1 = new AlertDialog.Builder(MainActivity.this);
                             builder1.setTitle(result.getName());
                             builder1.setTitle(result.getEmail());
-                            builder1.show();
+                            builder1.show();*/
+
+                            i = new Intent(MainActivity.this, ActivityMostrarProductos.class);
+                            startActivity(i);
+                            Toast.makeText(MainActivity.this, "Bienvenido " + result.getName(), Toast.LENGTH_LONG).show();
                         }else if(response.code()==401){
                             Toast.makeText(MainActivity.this, "Usuario o Contraseña INCORRECTOS", Toast.LENGTH_LONG).show();
                         }
@@ -113,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
                         if(response.code()==201){
-                            Toast.makeText(MainActivity.this, "Bienvenido!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(MainActivity.this, "Bienvenido "  , Toast.LENGTH_LONG).show();
                         }else if(response.code()==400){
                             Toast.makeText(MainActivity.this, "Este correo ya esta en uso.", Toast.LENGTH_LONG).show();
                         }
